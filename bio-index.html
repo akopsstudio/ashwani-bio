@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ashwani Kumar · Head of DevOps</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #020812;
+    --bg2: #050f1e;
+    --cyan: #00f5ff;
+    --cyan2: #00bcd4;
+    --green: #00ff88;
+    --orange: #ff6b35;
+    --text: #c8d8e8;
+    --text-dim: #5a7a9a;
+    --border: rgba(0,245,255,0.15);
+    --glow: 0 0 20px rgba(0,245,255,0.3);
+    --glow-strong: 0 0 40px rgba(0,245,255,0.6);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* ── GRID BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  /* ── SCAN LINE ── */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 1;
+    background: linear-gradient(transparent 50%, rgba(0,0,0,0.04) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    animation: scanline 8s linear infinite;
+  }
+  @keyframes scanline {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 100vh; }
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 3rem;
+    background: rgba(2,8,18,0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 1.2rem;
+    color: var(--cyan);
+    text-shadow: var(--glow);
+    letter-spacing: 4px;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.3s, text-shadow 0.3s;
+  }
+  .nav-links a:hover { color: var(--cyan); text-shadow: var(--glow); }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative; z-index: 2;
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+    padding: 8rem 6rem 4rem;
+  }
+  .hero-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--green);
+    letter-spacing: 4px;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-tag::before { content: '> '; color: var(--cyan); }
+  .hero-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2.5rem, 7vw, 6rem);
+    font-weight: 900;
+    line-height: 1;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-name span { color: var(--cyan); text-shadow: var(--glow-strong); }
+  .hero-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(0.9rem, 2.5vw, 1.4rem);
+    font-weight: 400;
+    color: var(--orange);
+    letter-spacing: 6px;
+    margin-top: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .hero-summary {
+    max-width: 640px;
+    margin-top: 2rem;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text-dim);
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; margin-top: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 1s forwards;
+  }
+  .btn {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 0.85rem 2rem;
+    text-decoration: none;
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+    background: transparent;
+    transition: all 0.3s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+  .btn:hover {
+    background: var(--cyan);
+    color: var(--bg);
+    box-shadow: var(--glow-strong);
+  }
+  .btn-solid {
+    background: var(--cyan);
+    color: var(--bg);
+    font-weight: 700;
+  }
+  .btn-solid:hover { box-shadow: var(--glow-strong); opacity: 0.9; }
+
+  /* ── METRICS STRIP ── */
+  .metrics-strip {
+    position: relative; z-index: 2;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: rgba(0,245,255,0.03);
+  }
+  .metric-cell {
+    padding: 2.5rem 2rem;
+    border-right: 1px solid var(--border);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .metric-cell:hover { background: rgba(0,245,255,0.06); }
+  .metric-cell:last-child { border-right: none; }
+  .metric-val {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--cyan);
+    text-shadow: var(--glow);
+    display: block;
+  }
+  .metric-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-top: 0.4rem;
+    display: block;
+  }
+
+  /* ── SECTIONS ── */
+  section { position: relative; z-index: 2; padding: 6rem 6rem; }
+  .section-header {
+    display: flex; align-items: center; gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+  .section-num {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--cyan);
+    letter-spacing: 2px;
+  }
+  .section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--cyan), transparent);
+    opacity: 0.3;
+  }
+
+  /* ── EXPERIENCE ── */
+  .timeline { position: relative; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0; width: 1px;
+    background: linear-gradient(180deg, var(--cyan), transparent);
+    opacity: 0.3;
+  }
+  .exp-card {
+    margin-left: 3rem;
+    margin-bottom: 3rem;
+    padding: 2rem 2.5rem;
+    border: 1px solid var(--border);
+    background: rgba(5,15,30,0.6);
+    position: relative;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+  }
+  .exp-card:hover {
+    border-color: rgba(0,245,255,0.4);
+    box-shadow: var(--glow);
+  }
+  .exp-card::before {
+    content: '';
+    position: absolute; left: -3.6rem; top: 2rem;
+    width: 10px; height: 10px;
+    border: 1px solid var(--cyan);
+    background: var(--bg);
+    transform: rotate(45deg);
+    box-shadow: 0 0 10px var(--cyan);
+  }
+  .exp-date {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--cyan);
+    letter-spacing: 3px;
+  }
+  .exp-role {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0.5rem 0 0.2rem;
+    letter-spacing: 1px;
+  }
+  .exp-company {
+    font-size: 0.85rem;
+    color: var(--orange);
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+  }
+  .exp-bullets { list-style: none; }
+  .exp-bullets li {
+    font-size: 0.875rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+    padding: 0.3rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+  }
+  .exp-bullets li::before {
+    content: '▸';
+    color: var(--cyan);
+    position: absolute; left: 0;
+    font-size: 0.7rem;
+  }
+
+  /* ── SKILLS GRID ── */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+  .skill-block {
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    background: rgba(5,15,30,0.5);
+    transition: all 0.3s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  }
+  .skill-block:hover {
+    border-color: rgba(0,245,255,0.4);
+    background: rgba(0,245,255,0.05);
+    box-shadow: var(--glow);
+    transform: translateY(-2px);
+  }
+  .skill-cat {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--cyan);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.6rem;
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .skill-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text);
+    background: rgba(0,245,255,0.07);
+    border: 1px solid rgba(0,245,255,0.12);
+    padding: 0.25rem 0.6rem;
+    letter-spacing: 1px;
+  }
+
+  /* ── CERTS ── */
+  .certs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+  .cert-card {
+    padding: 1.5rem 2rem;
+    border: 1px solid var(--border);
+    background: rgba(5,15,30,0.5);
+    transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .cert-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--cyan), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .cert-card:hover { border-color: rgba(0,245,255,0.3); box-shadow: var(--glow); }
+  .cert-card:hover::before { opacity: 1; }
+  .cert-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+    margin-bottom: 0.4rem;
+  }
+  .cert-issuer {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--cyan);
+    letter-spacing: 2px;
+  }
+  .cert-date {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 0.3rem;
+  }
+  .cert-badge {
+    position: absolute; top: 1rem; right: 1rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 2px;
+    color: var(--green);
+    background: rgba(0,255,136,0.1);
+    border: 1px solid rgba(0,255,136,0.3);
+    padding: 0.15rem 0.5rem;
+  }
+  .cert-badge.progress {
+    color: var(--orange);
+    background: rgba(255,107,53,0.1);
+    border-color: rgba(255,107,53,0.3);
+  }
+
+  /* ── CONTACT ── */
+  #contact { text-align: center; min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+  .contact-grid { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; margin-top: 3rem; }
+  .contact-item {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    padding: 1rem 2rem;
+    letter-spacing: 2px;
+    text-decoration: none;
+    transition: all 0.3s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+  .contact-item:hover { color: var(--cyan); border-color: var(--cyan); box-shadow: var(--glow); }
+  .contact-label { font-size: 0.55rem; color: var(--cyan); letter-spacing: 4px; display: block; margin-bottom: 0.3rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative; z-index: 2;
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 3px;
+  }
+
+  /* ── GLOW ORB ── */
+  .glow-orb {
+    position: fixed; pointer-events: none; z-index: 1;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,245,255,0.04) 0%, transparent 70%);
+    transition: transform 0.1s;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── TYPEWRITER ── */
+  .typewriter {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--green);
+    letter-spacing: 2px;
+    margin-top: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.2s forwards;
+  }
+  .typewriter::after {
+    content: '|';
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ── AVAILABILITY ── */
+  .avail-pill {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: var(--green);
+    border: 1px solid rgba(0,255,136,0.3);
+    background: rgba(0,255,136,0.07);
+    padding: 0.4rem 1rem;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.1s forwards;
+  }
+  .avail-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  /* ── CANVAS BG ── */
+  #particles { position: fixed; inset: 0; z-index: 0; }
+
+  /* responsive */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    #hero { padding: 7rem 1.5rem 3rem; }
+    section { padding: 4rem 1.5rem; }
+    .metrics-strip { grid-template-columns: repeat(2, 1fr); }
+    .hero-name { font-size: 2.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<div class="glow-orb" id="orb"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">AK//SYS</div>
+  <ul class="nav-links">
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="avail-pill"><span class="avail-dot"></span>OPEN TO REMOTE / RELOCATION</div>
+  <div class="hero-tag">HEAD OF DEVOPS · 15+ YEARS · BANGALORE, INDIA</div>
+  <h1 class="hero-name">ASHWANI<br><span>KUMAR</span></h1>
+  <div class="hero-title">Principal Platform &amp; Cloud Engineer</div>
+  <p class="hero-summary">
+    Results-driven DevOps leader designing and operating enterprise-scale cloud-native infrastructure across AWS, Azure, and GCP. Certified Kubernetes Administrator with a proven track record of 40%+ deployment lead time reductions, 99.9% platform uptime, and 25%+ cloud cost savings through FinOps practices.
+  </p>
+  <div class="typewriter">Kubernetes · GitOps · IaC · SRE · FinOps · Platform Engineering</div>
+  <div class="hero-cta">
+    <a href="#experience" class="btn">View Experience</a>
+    <a href="mailto:ashwani.kumar.career@gmail.com" class="btn btn-solid">Get In Touch</a>
+  </div>
+</section>
+
+<!-- METRICS -->
+<div class="metrics-strip">
+  <div class="metric-cell">
+    <span class="metric-val">40%<span style="font-size:1.2rem">+</span></span>
+    <span class="metric-label">Deployment Lead Time Reduction</span>
+  </div>
+  <div class="metric-cell">
+    <span class="metric-val">99.9<span style="font-size:1.2rem">%</span></span>
+    <span class="metric-label">Platform Uptime Achieved</span>
+  </div>
+  <div class="metric-cell">
+    <span class="metric-val">25%<span style="font-size:1.2rem">+</span></span>
+    <span class="metric-label">Cloud Cost Savings</span>
+  </div>
+  <div class="metric-cell">
+    <span class="metric-val">50%</span>
+    <span class="metric-label">MTTR Reduction via Observability</span>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header">
+    <span class="section-num"></span>
+    <h2 class="section-title">Experience</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline">
+
+    <div class="exp-card">
+      <div class="exp-date">SEP 2025 — PRESENT</div>
+      <div class="exp-role">Head of DevOps</div>
+      <div class="exp-company">Coredge Inc · Bangalore, India</div>
+      <ul class="exp-bullets">
+        <li>Architect and execute enterprise DevOps strategy across cloud and on-premises, driving 30% improvement in deployment frequency via GitOps adoption.</li>
+        <li>Led Kubernetes modernization, reducing unplanned downtime by 45% and cutting MTTR from 4 hours to under 45 minutes.</li>
+        <li>Defined SRE practices — SLAs, SLOs, error budgets — enabling proactive capacity planning across 3 cloud providers.</li>
+        <li>Standardized CI/CD pipelines and IaC (Terraform, Helm), enabling on-demand daily releases from bi-weekly cadence.</li>
+        <li>Delivered 25% cloud cost reduction via FinOps governance with 100%-compliant regulatory frameworks.</li>
+      </ul>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-date">DEC 2024 — SEP 2025</div>
+      <div class="exp-role">Head of DevOps</div>
+      <div class="exp-company">Marvin Inc · Bangalore, India</div>
+      <ul class="exp-bullets">
+        <li>Led enterprise DevOps transformation across hybrid cloud and on-premises infrastructure.</li>
+        <li>Containerization and Kubernetes modernization; 45% downtime reduction, MTTR from 4hrs → 45min.</li>
+        <li>Standardized CI/CD pipelines; reduced deployment lead time by 35%.</li>
+        <li>Established 100%-compliant regulatory frameworks across all cloud environments.</li>
+      </ul>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-date">JAN 2024 — DEC 2024</div>
+      <div class="exp-role">Head of DevOps</div>
+      <div class="exp-company">Tricog Health India Pvt. Ltd. · Bangalore, India</div>
+      <ul class="exp-bullets">
+        <li>Spearheaded DevOps transformation reducing time-to-market by 40%; aligned infrastructure with business objectives.</li>
+        <li>Designed CI/CD pipelines (Jenkins, GitHub Actions, GitLab CI), automating 95% of deployment workflows.</li>
+        <li>Deployed secure Kubernetes across multi-cloud achieving 99.9% availability for healthcare-critical applications.</li>
+        <li>Built Prometheus + Grafana + ELK observability stack, reducing MTTR by 50%.</li>
+        <li>Mentored 8 DevOps engineers, improving team productivity by 30%.</li>
+      </ul>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-date">OCT 2022 — MAY 2023</div>
+      <div class="exp-role">Principal DevOps Engineer</div>
+      <div class="exp-company">RapidCanvas · Bangalore, India</div>
+      <ul class="exp-bullets">
+        <li>Managed GKE, AKS, EKS Kubernetes environments for AI/ML platform; automated provisioning with Terraform — days → 2 hours.</li>
+        <li>Built GitHub Actions pipelines cutting deployment time by 40%, enabling daily releases across 5+ microservices.</li>
+        <li>Standardized multi-cloud IaC via Terraform modules, eliminating configuration drift across AWS, Azure, GCP.</li>
+      </ul>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-date">APR 2017 — JUN 2022</div>
+      <div class="exp-role">Lead DevOps Engineer</div>
+      <div class="exp-company">UiPath RPA India Pvt. Ltd. · Bangalore, India</div>
+      <ul class="exp-bullets">
+        <li>Achieved 99.9% availability for UiPath Orchestrator, Studio, and Robots through automated monitoring and self-healing infrastructure.</li>
+        <li>95% SLA resolution rate providing L3 support, directly contributing to multi-million dollar enterprise client retention.</li>
+        <li>Reduced manual deployment effort by 60% through pipeline automation across hybrid cloud and on-premises.</li>
+      </ul>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-date">SEP 2015 — JAN 2017</div>
+      <div class="exp-role">IT Engineer — DevOps &amp; Infrastructure</div>
+      <div class="exp-company">Cisco Systems · Bangalore, India</div>
+      <ul class="exp-bullets">
+        <li>Configured and maintained large-scale Docker and Kubernetes environments supporting 500+ microservices.</li>
+        <li>Implemented DR testing protocols and security compliance with zero data loss across all exercises.</li>
+      </ul>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-date">2011 — 2015</div>
+      <div class="exp-role">System / Network Engineer</div>
+      <div class="exp-company">Pawaa Software · Axon Networks · IBM India</div>
+      <ul class="exp-bullets">
+        <li>Deployed and managed AWS infrastructure (EC2, S3, RDS, IAM); configured VMware ESXi and Docker environments.</li>
+        <li>Designed enterprise network infrastructure; managed firewalls; L2 support for 400+ servers and 2,000+ users at IBM India.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" style="background: rgba(0,245,255,0.01);">
+  <div class="section-header">
+    <span class="section-num"></span>
+    <h2 class="section-title">Technical Stack</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-block">
+      <div class="skill-cat">Cloud Platforms</div>
+      <div class="skill-tags">
+        <span class="skill-tag">AWS</span><span class="skill-tag">Azure</span><span class="skill-tag">GCP</span><span class="skill-tag">IBM SoftLayer</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-cat">Containers &amp; Orchestration</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Kubernetes (CKA)</span><span class="skill-tag">Docker</span><span class="skill-tag">Helm</span><span class="skill-tag">Istio</span><span class="skill-tag">Docker Swarm</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-cat">IaC &amp; Config Management</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Terraform</span><span class="skill-tag">Ansible</span><span class="skill-tag">Chef</span><span class="skill-tag">Puppet</span><span class="skill-tag">CloudFormation</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-cat">CI/CD &amp; GitOps</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Jenkins</span><span class="skill-tag">GitHub Actions</span><span class="skill-tag">GitLab CI</span><span class="skill-tag">ArgoCD</span><span class="skill-tag">Artifactory</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-cat">Observability &amp; APM</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Prometheus</span><span class="skill-tag">Grafana</span><span class="skill-tag">ELK Stack</span><span class="skill-tag">Datadog</span><span class="skill-tag">Jaeger</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-cat">Security &amp; Compliance</div>
+      <div class="skill-tags">
+        <span class="skill-tag">HashiCorp Vault</span><span class="skill-tag">Trivy</span><span class="skill-tag">Falco</span><span class="skill-tag">OPA/Gatekeeper</span><span class="skill-tag">SAST/DAST</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-cat">Scripting &amp; Automation</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Bash</span><span class="skill-tag">Python</span><span class="skill-tag">PowerShell</span><span class="skill-tag">YAML</span><span class="skill-tag">Groovy</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-cat">Databases</div>
+      <div class="skill-tags">
+        <span class="skill-tag">MySQL</span><span class="skill-tag">PostgreSQL</span><span class="skill-tag">MongoDB</span><span class="skill-tag">MS SQL</span><span class="skill-tag">Oracle</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-header">
+    <span class="section-num"></span>
+    <h2 class="section-title">Certifications</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="certs-grid">
+    <div class="cert-card">
+      <span class="cert-badge">ACTIVE</span>
+      <div class="cert-name">Certified Kubernetes Administrator (CKA)</div>
+      <div class="cert-issuer">Linux Foundation</div>
+      <div class="cert-date">Jul 2021</div>
+    </div>
+    <div class="cert-card">
+      <span class="cert-badge">ACTIVE</span>
+      <div class="cert-name">Azure Administrator AZ-104</div>
+      <div class="cert-issuer">Microsoft</div>
+      <div class="cert-date">Oct 2020</div>
+    </div>
+    <div class="cert-card">
+      <span class="cert-badge">ACTIVE</span>
+      <div class="cert-name">Azure Architect AZ-303</div>
+      <div class="cert-issuer">Microsoft</div>
+      <div class="cert-date">Oct 2020</div>
+    </div>
+    <div class="cert-card">
+      <span class="cert-badge">ACTIVE</span>
+      <div class="cert-name">Certified ScrumMaster (CSM)</div>
+      <div class="cert-issuer">Scrum Alliance</div>
+      <div class="cert-date">Apr 2019</div>
+    </div>
+    <div class="cert-card">
+      <span class="cert-badge">ACTIVE</span>
+      <div class="cert-name">RHCE</div>
+      <div class="cert-issuer">Red Hat</div>
+      <div class="cert-date">—</div>
+    </div>
+    <div class="cert-card">
+      <span class="cert-badge">ACTIVE</span>
+      <div class="cert-name">VMware VCP5-DT</div>
+      <div class="cert-issuer">VMware</div>
+      <div class="cert-date">—</div>
+    </div>
+    <div class="cert-card">
+      <span class="cert-badge">ACTIVE</span>
+      <div class="cert-name">UiPath RPA Solution Architect</div>
+      <div class="cert-issuer">UiPath</div>
+      <div class="cert-date">—</div>
+    </div>
+    <div class="cert-card">
+      <span class="cert-badge progress">IN PROGRESS</span>
+      <div class="cert-name">AWS DevOps Engineer Professional</div>
+      <div class="cert-issuer">Amazon Web Services</div>
+      <div class="cert-date">Target: Q3 2026</div>
+    </div>
+    <div class="cert-card">
+      <span class="cert-badge progress">IN PROGRESS</span>
+      <div class="cert-name">AZ-304 / AZ-400</div>
+      <div class="cert-issuer">Microsoft</div>
+      <div class="cert-date">Target: Q4 2026</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header" style="justify-content:center; margin-bottom:1rem;">
+    <span class="section-num"></span>
+    <h2 class="section-title">Get In Touch</h2>
+  </div>
+  <p style="font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:var(--text-dim);letter-spacing:2px;margin-bottom:1rem;">
+    Open to senior DevOps / Platform Engineering leadership roles · Remote / Relocation ready
+  </p>
+  <div class="contact-grid">
+    <a class="contact-item" href="mailto:ashwani.kumar.career@gmail.com">
+      <span class="contact-label">EMAIL</span>
+      ashwani.kumar.career@gmail.com
+    </a>
+    <a class="contact-item" href="tel:+919986798872">
+      <span class="contact-label">PHONE</span>
+      +91 99867 98872
+    </a>
+    <a class="contact-item" href="https://linkedin.com/in/ashwani547" target="_blank">
+      <span class="contact-label">LINKEDIN</span>
+      linkedin.com/in/ashwani547
+    </a>
+    <a class="contact-item" href="https://github.com" target="_blank">
+      <span class="contact-label">GITHUB</span>
+      github.com/ashwani-kumar
+    </a>
+  </div>
+</section>
+
+<footer>
+  &lt;/&gt; ASHWANI KUMAR · HEAD OF DEVOPS · BANGALORE, INDIA · 2025
+</footer>
+
+<script>
+// ── PARTICLE CANVAS ──
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+for (let i = 0; i < 80; i++) {
+  particles.push({
+    x: Math.random() * 2000,
+    y: Math.random() * 2000,
+    vx: (Math.random() - 0.5) * 0.3,
+    vy: (Math.random() - 0.5) * 0.3,
+    r: Math.random() * 1.5 + 0.5,
+    alpha: Math.random() * 0.4 + 0.1
+  });
+}
+
+function drawParticles() {
+  ctx.clearRect(0, 0, W, H);
+  particles.forEach(p => {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+    if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(0,245,255,${p.alpha})`;
+    ctx.fill();
+  });
+  // draw lines between nearby particles
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i+1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      if (d < 120) {
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(0,245,255,${0.08 * (1 - d/120)})`;
+        ctx.lineWidth = 0.5;
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+// ── MOUSE GLOW ──
+const orb = document.getElementById('orb');
+document.addEventListener('mousemove', e => {
+  orb.style.transform = `translate(${e.clientX - 300}px, ${e.clientY - 300}px)`;
+});
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.exp-card, .skill-block, .cert-card, .metric-cell').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(24px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
